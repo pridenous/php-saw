@@ -59,7 +59,7 @@ while ($dt = mysql_fetch_array($sql)) {
    <td>$dt[ipk]</td>
    <td>$dt[saudara]</td>
    <td>$jumlah</td>
-   <td>" . round($dt['pendapatan'] / $max['maxK1'], 2) . "</td>
+   <td>" . round($max['maxK1'] / $dt['pendapatan'], 2) . "</td>
    <td>" . round($dt['ipk'] / $max['maxK2'], 2) . "</td>
    <td>" . round($dt['saudara'] / $max['maxK3'], 2) . "</td>
    <td>$poin</td>
