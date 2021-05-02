@@ -14,8 +14,15 @@ function getNama($id)
     $d = mysql_fetch_array($q);
     return $d['nama'];
 }
-echo "<button>Add Mahasiswa</button>";
-echo "<button>Add Kriteria</button>";
+?>
+<a href="addmahasiswa.php">
+    <button>Add Mahasiswa</button>
+</a>
+<a href="#">
+    <button>Add Kriteria</button>
+</a>
+
+<?php
 //Setelah bobot terbuat select semua di tabel Matrik
 $sql = mysql_query("SELECT * FROM daftar");
 
@@ -54,11 +61,8 @@ while ($dt = mysql_fetch_array($sql)) {
     $nor2 = round($dt['ipk'] / $max['maxK2'], 2);
     $nor3 = round($dt['saudara'] / $max['maxK3'], 2);
     // Hasil Akhir SAW
-    $poin = round(
-        ($nor1 * $bobot[0]) +
-            ($nor2 * $bobot[1]) +
-            ($nor3 * $bobot[2])
-    );
+    $poin =  $nor1 * $bobot[0] + $nor2 * $bobot[1] + $nor3 * $bobot[2];
+
     $jumlah = ($dt['pendapatan']) + ($dt['ipk']) + ($dt['saudara']);
     echo "<tr>
    <td>$no</td>
@@ -103,19 +107,19 @@ echo "<H3>Perangkingan</H3>
   <tr>
    <td>no</td>
    <td>Nama</td>
-   <td>total poin</td>
    <td>SAW</td>
   </tr>
   ";
 
 //Kita gunakan rumus (Normalisasi x bobot)
 while ($dt3 = mysql_fetch_array($sql3)) {
-    $jumlah = ($dt3['pendapatan']) + ($dt3['ipk']) + ($dt3['saudara']);
-    $poin = round(
-        (($dt3['pendapatan'] / $max['maxK1']) * $bobot[0]) +
-            (($dt3['ipk'] / $max['maxK2']) * $bobot[1]) +
-            (($dt3['saudara'] / $max['maxK3']) * $bobot[2])
-    );
+
+    //  Normalisasi
+    $nor1 = round($max['maxK1'] / $dt3['pendapatan'], 2);
+    $nor2 = round($dt3['ipk'] / $max['maxK2'], 2);
+    $nor3 = round($dt3['saudara'] / $max['maxK3'], 2);
+    // Hasil Akhir SAW
+    $poin =  $nor1 * $bobot[0] + $nor2 * $bobot[1] + $nor3 * $bobot[2];
 
     $data[] = array(
         'nama' => getNama($dt3['nim']),
@@ -136,13 +140,19 @@ $no = 1;
 $h = "berhak mendapat beasiswa";
 $juara = 1;
 $hr = 1;
+?>
+<?php foreach ($data as $item) { ?>
 
-foreach ($data as $item) { ?>
     <tr>
-        <td><?php echo $no ?></td>
-        <td><?php echo $item['nama'] ?></td>
-        <td><?php echo $item['jumlah'] ?></td>
-        <td><?php echo $item['poin'] ?></td>
+        <?php if ($no > 1) { ?>
+            <td><?php echo $no ?></td>
+            <td><?php echo $item['nama'] ?></td>
+            <td><?php echo $item['poin'] ?></td>
+        <?php } else { ?>
+            <td><strong><?php echo $no ?></strong></td>
+            <td><strong><?php echo $item['nama'] ?></strong></td>
+            <td><strong><?php echo $item['poin'] ?></strong></td>
+        <?php } ?>
     </tr>
 <?php
     $no++;
