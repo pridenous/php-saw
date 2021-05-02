@@ -5,7 +5,7 @@ mysql_connect("localhost", "root", "") or die(mysql_error());
 mysql_select_db("saw") or die(mysql_error());
 
 //Buat array bobot { C1 = 35%; C2 = 25%; C3 = 25%; dan C4 = 15%.}
-$bobot = array(0.30, 0.30, 0.20, 0.20);
+$bobot = array(0.50, 0.30, 0.20);
 
 //Buat fungsi tampilkan nama
 function getNama($id)
@@ -27,6 +27,10 @@ $crMax = mysql_query("SELECT min(pendapatan) as maxK1,
    FROM daftar");
 $max = mysql_fetch_array($crMax);
 
+$tbmax1 = $max['maxK1'];
+$tbmax2 = $max['maxK2'];
+$tbmax3 = $max['maxK3'];
+
 //Buat tabel untuk menampilkan hasil
 echo "<H3>Matrik Awal</H3>
  <table width=500 style='border:1px; #ddd; solid; border-collapse:collapse' border=1>
@@ -45,11 +49,15 @@ echo "<H3>Matrik Awal</H3>
   ";
 $no = 1;
 while ($dt = mysql_fetch_array($sql)) {
+    //  Normalisasi
+    $nor1 = round($max['maxK1'] / $dt['pendapatan'], 2);
+    $nor2 = round($dt['ipk'] / $max['maxK2'], 2);
+    $nor3 = round($dt['saudara'] / $max['maxK3'], 2);
     // Hasil Akhir SAW
     $poin = round(
-        (($dt['pendapatan'] / $max['maxK1']) * $bobot[0]) +
-            (($dt['ipk'] / $max['maxK2']) * $bobot[1]) +
-            (($dt['saudara'] / $max['maxK3']) * $bobot[2])
+        ($nor1 * $bobot[0]) +
+            ($nor2 * $bobot[1]) +
+            ($nor3 * $bobot[2])
     );
     $jumlah = ($dt['pendapatan']) + ($dt['ipk']) + ($dt['saudara']);
     echo "<tr>
@@ -59,13 +67,30 @@ while ($dt = mysql_fetch_array($sql)) {
    <td>$dt[ipk]</td>
    <td>$dt[saudara]</td>
    <td>$jumlah</td>
-   <td>" . round($max['maxK1'] / $dt['pendapatan'], 2) . "</td>
-   <td>" . round($dt['ipk'] / $max['maxK2'], 2) . "</td>
-   <td>" . round($dt['saudara'] / $max['maxK3'], 2) . "</td>
+   <td>$nor1</td>
+   <td>$nor2</td>
+   <td>$nor3</td>
    <td>$poin</td>
   </tr>";
     $no++;
 }
+echo "
+<tr>
+   <td colspan=2></td>
+   <td><strong>$tbmax1</strong></td>
+   <td><strong>$tbmax2</strong></td>
+   <td><strong>$tbmax3</strong></td>
+   <td></td>
+   <td colspan=3><strong>pembobotan</strong></td>
+   <td>Hasil</td>
+ </tr>
+<tr>
+   <td colspan=6></td>
+   <td><strong>$bobot[0]</strong></td>
+   <td><strong>$bobot[1]</strong></td>
+   <td><strong>$bobot[2]</strong></td>
+ </tr>
+";
 echo "</table>";
 
 
