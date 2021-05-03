@@ -5,7 +5,7 @@
 </head>
 
 <body>
-    <h1>Tambah Data Siswa</h1>
+    <h1>Tambah Data Mahasiswa</h1>
     <form method="post" action="proses_simpan.php">
         <table cellpadding="8">
             <tr>

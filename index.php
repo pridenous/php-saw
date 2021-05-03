@@ -16,7 +16,7 @@ function getNama($id)
 }
 ?>
 <a href="addmahasiswa.php">
-    <button>Ad d Mahasiswa</button>
+    <button>Add Mahasiswa</button>
 </a>
 <a href="adddaftar.php">
     <button>Add Kriteria</button>
@@ -32,10 +32,10 @@ $sql = mysql_query("SELECT * FROM mahasiswa");
 <!-- Table Mahasiswa -->
 <div>
     <H3>Mahasiswa</H3>
-    <table width=500 style='border:1px; #ddd; solid; border-collapse:collapse' border=1>
+    <table width=500 border=1>
         <tr>
-            <td>No</td>
-            <td>NIM</td>
+            <td>Nim</td>
+            <td>Nama</td>
             <td>Alamat</td>
             <td>Telepon</td>
         </tr>
@@ -44,14 +44,13 @@ $sql = mysql_query("SELECT * FROM mahasiswa");
         while ($dt = mysql_fetch_array($sql)) {
 
             echo "<tr>
-   <td>$no</td>
+   <td>$dt[nim]</td>
    <td>$dt[nama]</td>
    <td>$dt[alamat]</td>
    <td>$dt[telp]</td>
  
   </tr>
   ";
-            $no++;
         }
         ?>
     </table>
@@ -65,7 +64,7 @@ $sql = mysql_query("SELECT * FROM mahasiswa");
     ?>
     <div>
         <H3>Daftar</H3>
-        <table width=500 style='border:1px; #ddd; solid; border-collapse:collapse' border=1>
+        <table width=500 border=1>
             <tr>
                 <td>No</td>
                 <td>NIM</td>
