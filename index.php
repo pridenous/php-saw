@@ -16,9 +16,9 @@ function getNama($id)
 }
 ?>
 <a href="addmahasiswa.php">
-    <button>Add Mahasiswa</button>
+    <button>Ad d Mahasiswa</button>
 </a>
-<a href="#">
+<a href="adddaftar.php">
     <button>Add Kriteria</button>
 </a>
 
@@ -85,7 +85,7 @@ echo "
    <td><strong>$tbmax2</strong></td>
    <td><strong>$tbmax3</strong></td>
    <td></td>
-   <td colspan=3><strong>pembobotan</strong></td>
+   <td colspan=3><center><strong>pembobotan</strong></center></td>
    <td>Hasil</td>
  </tr>
 <tr>
